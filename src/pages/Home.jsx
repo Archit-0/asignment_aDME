@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { SearchBar } from "../Components/SearchBar.jsx";
 import { FilterSort } from "../Components/FilterSort.jsx";
-import { ProductGrid } from "../components/ProductGrid.jsx";
+import { ProductGrid } from "../Components/ProductGrid.jsx";
 
 import {
   getAllProducts,
