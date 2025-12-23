@@ -14,37 +14,33 @@ export const FilterSort = ({
   const [showSort, setShowSort] = useState(false);
 
   return (
-    <div className="flex items-center gap-4">
-      {/* CATEGORY FILTER */}
+    <div className="flex items-center gap-3">
+      {/* CATEGORY */}
       <div
         className="relative"
         onMouseEnter={() => setShowCategory(true)}
         onMouseLeave={() => setShowCategory(false)}
       >
-        <div className="flex items-center gap-2 px-5 py-2.5 border border-slate-200 rounded-lg bg-gradient-to-br from-white to-slate-50 cursor-pointer hover:border-emerald-300 hover:shadow-md transition-all duration-300">
-          <Filter size={18} className="text-slate-600" />
-          <span className="text-sm font-medium text-slate-700">
-            {selectedCategory || "All Categories"}
-          </span>
-        </div>
+        <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md bg-white text-sm text-gray-700">
+          <Filter size={16} />
+          {selectedCategory || "Category"}
+        </button>
 
         {showCategory && (
-          <div className="absolute top-full mt-2 left-0 w-52 bg-white border border-slate-200 rounded-lg shadow-xl z-50 overflow-hidden">
+          <div className="absolute top-full mt-1 left-0 w-44 bg-white border border-gray-300 rounded-md shadow-sm z-50">
             <button
               onClick={() => setSelectedCategory("")}
-              className="w-full px-4 py-2.5 text-left text-sm hover:bg-slate-50 transition-colors duration-200 border-b border-slate-100"
+              className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
             >
-              <span className="text-slate-700">All Categories</span>
+              All Categories
             </button>
 
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`w-full px-4 py-2.5 text-left text-sm transition-colors duration-200 ${
-                  selectedCategory === cat
-                    ? "bg-emerald-50 text-emerald-700 font-medium"
-                    : "text-slate-700 hover:bg-slate-50"
+                className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-100 ${
+                  selectedCategory === cat ? "font-medium bg-gray-100" : ""
                 }`}
               >
                 {cat}
@@ -54,38 +50,30 @@ export const FilterSort = ({
         )}
       </div>
 
-      {/* SORT OPTIONS */}
+      {/* SORT */}
       <div
         className="relative"
         onMouseEnter={() => setShowSort(true)}
         onMouseLeave={() => setShowSort(false)}
       >
-        <div className="flex items-center gap-2 px-5 py-2.5 border border-slate-200 rounded-lg bg-gradient-to-br from-white to-slate-50 cursor-pointer hover:border-teal-300 hover:shadow-md transition-all duration-300">
-          <SortAsc size={18} className="text-slate-600" />
-          <span className="text-sm font-medium text-slate-700">
-            {sortBy
-              ? sortBy
-                  .replace("-", " ")
-                  .replace(/\b\w/g, (l) => l.toUpperCase())
-              : "Sort By"}
-          </span>
-        </div>
+        <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md bg-white text-sm text-gray-700">
+          <SortAsc size={16} />
+          {sortBy ? sortBy.replace("-", " ") : "Sort"}
+        </button>
 
         {showSort && (
-          <div className="absolute top-full mt-2 left-0 w-52 bg-white border border-slate-200 rounded-lg shadow-xl z-50 overflow-hidden">
+          <div className="absolute top-full mt-1 left-0 w-44 bg-white border border-gray-300 rounded-md shadow-sm z-50">
             {[
-              ["name-asc", "Name A → Z"],
-              ["name-desc", "Name Z → A"],
-              ["grade-asc", "Best Grade First"],
-              ["grade-desc", "Worst Grade First"],
+              ["name-asc", "Name A–Z"],
+              ["name-desc", "Name Z–A"],
+              ["grade-asc", "Best Grade"],
+              ["grade-desc", "Worst Grade"],
             ].map(([value, label]) => (
               <button
                 key={value}
                 onClick={() => setSortBy(value)}
-                className={`w-full px-4 py-2.5 text-left text-sm transition-colors duration-200 ${
-                  sortBy === value
-                    ? "bg-teal-50 text-teal-700 font-medium"
-                    : "text-slate-700 hover:bg-slate-50"
+                className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-100 ${
+                  sortBy === value ? "font-medium bg-gray-100" : ""
                 }`}
               >
                 {label}
