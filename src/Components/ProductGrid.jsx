@@ -27,13 +27,21 @@ export const ProductGrid = ({ products, onProductClick, loading }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {uniqueProducts.map((product) => (
-        <ProductCard
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-in fade-in duration-500">
+      {uniqueProducts.map((product, index) => (
+        <div
           key={product.id || product.barcode}
-          product={product}
-          onClick={() => onProductClick(product)}
-        />
+          className="animate-in fade-in slide-in-from-bottom-4"
+          style={{
+            animationDelay: `${index * 50}ms`,
+            animationFillMode: "backwards",
+          }}
+        >
+          <ProductCard
+            product={product}
+            onClick={() => onProductClick(product)}
+          />
+        </div>
       ))}
     </div>
   );

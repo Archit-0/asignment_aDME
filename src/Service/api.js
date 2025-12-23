@@ -4,6 +4,7 @@ export const getAllProducts = async (page = 1, pageSize = 30) => {
   const response = await axiosInstance.get(
     `/api/v2/search?page=${page}&page_size=${pageSize}`
   );
+  console.log("API Response:", response.data);
   return (response.data.products || []).map(ProductForUI);
 };
 // get product by barcode

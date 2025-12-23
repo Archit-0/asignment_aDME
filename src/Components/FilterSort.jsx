@@ -1,4 +1,8 @@
-import { Filter, SortAsc, ChevronDown } from "lucide-react";
+"use client";
+
+import { Filter, SortAsc } from "lucide-react";
+import { useState } from "react";
+
 export const FilterSort = ({
   categories,
   selectedCategory,
@@ -6,51 +10,89 @@ export const FilterSort = ({
   sortBy,
   setSortBy,
 }) => {
+  const [showCategory, setShowCategory] = useState(false);
+  const [showSort, setShowSort] = useState(false);
+
   return (
-    <div className="flex flex-col sm:flex-row gap-3">
-      <div className="relative flex-1">
-        <Filter
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-          size={20}
-        />
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="w-full pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-base"
-        >
-          <option value="">All Categories</option>
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </option>
-          ))}
-        </select>
-        <ChevronDown
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
-          size={20}
-        />
+    <div className="flex items-center gap-4">
+      {/* CATEGORY FILTER */}
+      <div
+        className="relative"
+        onMouseEnter={() => setShowCategory(true)}
+        onMouseLeave={() => setShowCategory(false)}
+      >
+        <div className="flex items-center gap-2 px-5 py-2.5 border border-slate-200 rounded-lg bg-gradient-to-br from-white to-slate-50 cursor-pointer hover:border-emerald-300 hover:shadow-md transition-all duration-300">
+          <Filter size={18} className="text-slate-600" />
+          <span className="text-sm font-medium text-slate-700">
+            {selectedCategory || "All Categories"}
+          </span>
+        </div>
+
+        {showCategory && (
+          <div className="absolute top-full mt-2 left-0 w-52 bg-white border border-slate-200 rounded-lg shadow-xl z-50 overflow-hidden">
+            <button
+              onClick={() => setSelectedCategory("")}
+              className="w-full px-4 py-2.5 text-left text-sm hover:bg-slate-50 transition-colors duration-200 border-b border-slate-100"
+            >
+              <span className="text-slate-700">All Categories</span>
+            </button>
+
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`w-full px-4 py-2.5 text-left text-sm transition-colors duration-200 ${
+                  selectedCategory === cat
+                    ? "bg-emerald-50 text-emerald-700 font-medium"
+                    : "text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      <div className="relative flex-1">
-        <SortAsc
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-          size={20}
-        />
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="w-full pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-base"
-        >
-          <option value="">Sort By</option>
-          <option value="name-asc">Name (A-Z)</option>
-          <option value="name-desc">Name (Z-A)</option>
-          <option value="grade-asc">Grade (Best First)</option>
-          <option value="grade-desc">Grade (Worst First)</option>
-        </select>
-        <ChevronDown
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
-          size={20}
-        />
+      {/* SORT OPTIONS */}
+      <div
+        className="relative"
+        onMouseEnter={() => setShowSort(true)}
+        onMouseLeave={() => setShowSort(false)}
+      >
+        <div className="flex items-center gap-2 px-5 py-2.5 border border-slate-200 rounded-lg bg-gradient-to-br from-white to-slate-50 cursor-pointer hover:border-teal-300 hover:shadow-md transition-all duration-300">
+          <SortAsc size={18} className="text-slate-600" />
+          <span className="text-sm font-medium text-slate-700">
+            {sortBy
+              ? sortBy
+                  .replace("-", " ")
+                  .replace(/\b\w/g, (l) => l.toUpperCase())
+              : "Sort By"}
+          </span>
+        </div>
+
+        {showSort && (
+          <div className="absolute top-full mt-2 left-0 w-52 bg-white border border-slate-200 rounded-lg shadow-xl z-50 overflow-hidden">
+            {[
+              ["name-asc", "Name A → Z"],
+              ["name-desc", "Name Z → A"],
+              ["grade-asc", "Best Grade First"],
+              ["grade-desc", "Worst Grade First"],
+            ].map(([value, label]) => (
+              <button
+                key={value}
+                onClick={() => setSortBy(value)}
+                className={`w-full px-4 py-2.5 text-left text-sm transition-colors duration-200 ${
+                  sortBy === value
+                    ? "bg-teal-50 text-teal-700 font-medium"
+                    : "text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
